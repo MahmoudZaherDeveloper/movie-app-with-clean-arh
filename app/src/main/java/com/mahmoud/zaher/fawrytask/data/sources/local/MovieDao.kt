@@ -12,7 +12,8 @@ interface MovieDao {
     fun getAllMovies(): List<MovieEntity>
 
     @Insert(onConflict = REPLACE)
-    fun insertAll(vararg movies: MovieEntity)
+    fun insertAll(movies: List<MovieEntity>)
+    //  fun insertAll(vararg movies: MovieEntity)
 
     //todo varargs -> you can add one object or more than one
 }
