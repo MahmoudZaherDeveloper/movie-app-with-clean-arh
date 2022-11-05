@@ -1,4 +1,4 @@
-package com.mahmoud.zaher.fawrytask.presentation
+package com.mahmoud.zaher.fawrytask
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
