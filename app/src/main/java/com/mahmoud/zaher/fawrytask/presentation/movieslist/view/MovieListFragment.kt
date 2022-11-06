@@ -9,8 +9,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mahmoud.zaher.fawrytask.R
 import com.mahmoud.zaher.fawrytask.core.isInternetAvailable
+import com.mahmoud.zaher.fawrytask.core.pagination.ScrollingPagination
 import com.mahmoud.zaher.fawrytask.core.view.viewBinding
 import com.mahmoud.zaher.fawrytask.databinding.FragmentMovieListBinding
 import com.mahmoud.zaher.fawrytask.domain.model.Movie
@@ -24,11 +26,16 @@ import kotlinx.coroutines.launch
 class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
     private val viewModel: MovieListViewModel by viewModels()
     private val binding by viewBinding(FragmentMovieListBinding::bind)
-
+    private val newMovies = mutableListOf<Movie>()
+    private val moviesAdapter = MoviesAdapter(::onUserClicked)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.rvMovies.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = moviesAdapter
+        }
         observeScreenState()
+        handleShowFooterProgress()
     }
 
     private fun observeScreenState() {
@@ -38,13 +45,23 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
                     when (state) {
                         is MovieListScreenState.Initial -> Unit
                         is MovieListScreenState.Loading -> showLoading()
-                        // is MovieListScreenState.LoadingNextPage -> handleShowFooterProgress(state.characters)
+                        is MovieListScreenState.LoadingNextPage -> handleNextPage(state.movies)
                         is MovieListScreenState.Success -> handleSuccessState(state.movies)
                         is MovieListScreenState.Error -> handleError(state.message)
                     }
                 }
             }
         }
+    }
+
+    private fun handleShowFooterProgress() {
+        binding.rvMovies.addOnScrollListener(object :
+            ScrollingPagination(binding.rvMovies.layoutManager as LinearLayoutManager) {
+            override fun loadMoreDate() {
+                viewModel.loadMore()
+
+            }
+        })
     }
 
     private fun handleError(message: String) {
@@ -67,7 +84,15 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
 
     private fun handleSuccessState(movieResult: List<Movie>) {
         hideLoading()
-        binding.rvMovies.adapter = MoviesAdapter(movieResult, ::onUserClicked)
+        //  binding.rvMovies.adapter = MoviesAdapter(movieResult, ::onUserClicked)
+        moviesAdapter.submitList(movieResult)
+    }
+
+    private fun handleNextPage(movieResult: List<Movie>) {
+        newMovies.addAll(movieResult)
+        hideLoading()
+        //binding.rvMovies.adapter = MoviesAdapter(newMovies.distinct(), ::onUserClicked)
+        moviesAdapter.submitList(newMovies.distinct())
     }
 
     private fun onUserClicked(movie: Movie) {

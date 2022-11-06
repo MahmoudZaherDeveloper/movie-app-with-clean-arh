@@ -13,17 +13,29 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieListViewModel @Inject constructor(val movieInteractor: MovieInteractor) : ViewModel() {
     val screenState by lazy { MutableStateFlow<MovieListScreenState>(MovieListScreenState.Initial) }
+    private var canLoading = true
+    private var pageNumber = 1
 
     init {
-        getAllMovies()
+        getAllMovies(pageNumber)
     }
 
-    private fun getAllMovies() {
+    fun loadMore() {
+        if (canLoading) {
+            pageNumber++
+            getAllMovies(pageNumber)
+        }
+    }
+
+    private fun getAllMovies(pageNumber: Int) {
         screenState.value = MovieListScreenState.Loading
+        canLoading = false
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val result = movieInteractor.getMovieList()
+                val result = movieInteractor.getMovieList(pageNumber)
                 screenState.value = MovieListScreenState.Success(result)
+                screenState.value = MovieListScreenState.LoadingNextPage(result)
+                canLoading = true
             } catch (exception: Exception) {
                 screenState.value =
                     MovieListScreenState.Error(
@@ -55,5 +67,6 @@ sealed class MovieListScreenState {
     object Initial : MovieListScreenState()
     object Loading : MovieListScreenState()
     data class Success(val movies: List<Movie>) : MovieListScreenState()
+    data class LoadingNextPage(val movies: List<Movie>) : MovieListScreenState()
     data class Error(val message: String) : MovieListScreenState()
 }

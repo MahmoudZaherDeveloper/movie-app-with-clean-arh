@@ -5,7 +5,7 @@ import com.mahmoud.zaher.fawrytask.data.sources.remote.pojo.MovieResult
 import com.mahmoud.zaher.fawrytask.domain.model.Movie
 
 fun MovieResult.mapToMovie(): Movie {
-    return Movie(this.id, this.title)
+    return Movie(this.id, this.title, this.posterPath)
 }
 
 //todo
@@ -14,9 +14,9 @@ fun MovieResult.mapToMovie(): Movie {
 //}
 
 fun MovieResult.mapToMovieEntity(): MovieEntity {
-    return MovieEntity(this.id, this.title)
+    return MovieEntity(this.id, this.title, this.posterPath)
 }
 
 fun MovieEntity.mapToMovie(): Movie {
-    return Movie(this.id, this.movieName)
+    return Movie(this.id, this.movieName, this.posterPath)
 }

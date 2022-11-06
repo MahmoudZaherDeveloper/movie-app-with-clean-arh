@@ -11,5 +11,7 @@ data class MovieEntity(
     @SerializedName("id")
     val id: Int,
     @ColumnInfo(name = "movie_name")
-    val movieName: String
+    val movieName: String,
+    @ColumnInfo(name = "poster_path")
+    val posterPath: String
 )
