@@ -8,7 +8,7 @@
     >
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_users"
+        android:id="@+id/rv_movies"
         android:clipToPadding="false"
         android:paddingVertical="12dp"
         android:layout_width="match_parent"

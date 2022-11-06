@@ -4,4 +4,5 @@ import com.mahmoud.zaher.fawrytask.domain.model.Movie
 
 interface MovieRepository {
     suspend fun getMovieList(): List<Movie>
+    fun getAllCashed():List<Movie>
 }

@@ -8,4 +8,6 @@ class MovieInteractor @Inject constructor(val movieRepository: MovieRepository) 
     suspend fun getMovieList(): List<Movie> {
         return movieRepository.getMovieList()
     }
+
+    fun getCashedUsers() = movieRepository.getAllCashed()
 }

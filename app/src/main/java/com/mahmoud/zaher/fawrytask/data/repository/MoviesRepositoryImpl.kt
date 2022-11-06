@@ -13,15 +13,21 @@ class MoviesRepositoryImpl @Inject constructor(
     private val movieDao: MovieDao
 ) : MovieRepository {
     override suspend fun getMovieList(): List<Movie> {
-        val result = remoteDataSource.getMovies().genres.map {
+        val result = remoteDataSource.getMovies().results.map {
             it.mapToMovieEntity()
         }
         //todo * to accept list
         // movieDao.insertAll(*result.toTypedArray())
         movieDao.insertAll(result)
-        return remoteDataSource.getMovies().genres.map {
+        return remoteDataSource.getMovies().results.map {
             it.mapToMovie()
             //todo mapToMoviee(it)
+        }
+    }
+
+    override fun getAllCashed(): List<Movie> {
+        return movieDao.getAllMovies().map {
+            it.mapToMovie()
         }
     }
 

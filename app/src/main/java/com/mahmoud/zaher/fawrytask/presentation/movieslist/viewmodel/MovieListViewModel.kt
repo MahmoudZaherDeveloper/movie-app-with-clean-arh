@@ -33,6 +33,22 @@ class MovieListViewModel @Inject constructor(val movieInteractor: MovieInteracto
         }
     }
 
+    fun loadCachedData() {
+        screenState.value = MovieListScreenState.Loading
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val result = movieInteractor.getCashedUsers()
+                screenState.value = MovieListScreenState.Success(result)
+            } catch (exception: Exception) {
+                screenState.value =
+                    MovieListScreenState.Error(
+                        message = exception.message ?: "Something wrong happened!"
+                    )
+            }
+        }
+    }
+
+
 }
 
 sealed class MovieListScreenState {
