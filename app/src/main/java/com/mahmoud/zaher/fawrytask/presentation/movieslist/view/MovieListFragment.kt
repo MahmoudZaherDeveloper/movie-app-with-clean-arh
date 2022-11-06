@@ -9,6 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mahmoud.zaher.fawrytask.R
 import com.mahmoud.zaher.fawrytask.core.isInternetAvailable
@@ -96,6 +98,10 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
     }
 
     private fun onUserClicked(movie: Movie) {
-        Toast.makeText(context, movie.movieName, Toast.LENGTH_SHORT).show()
+        findNavController().navigate(
+            MovieListFragmentDirections.actionMovieListFragmentToMovieDetailsFragment(
+                movie.id
+            )
+        )
     }
 }
