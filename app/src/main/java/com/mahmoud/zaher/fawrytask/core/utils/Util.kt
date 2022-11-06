@@ -18,9 +18,9 @@ fun getProgressDrawable(context: Context): CircularProgressDrawable {
     }
 }
 
-fun ImageView.loadImage(uri: String, progressDrawable: CircularProgressDrawable) {
+fun ImageView.loadImage(uri: String) {
     val options = RequestOptions()
-        .placeholder(progressDrawable)
+        .placeholder(getProgressDrawable(context))
         .error(R.mipmap.ic_launcher)
     Glide.with(context)
         .setDefaultRequestOptions(options)
@@ -30,8 +30,8 @@ fun ImageView.loadImage(uri: String, progressDrawable: CircularProgressDrawable)
 }
 
 @BindingAdapter("android:imageUrl")
-fun loadImage(imageView: ImageView, url: String?) {
+fun imageUrl(imageView: ImageView, url: String?) {
     if (url != null) {
-        imageView.loadImage(url, getProgressDrawable(imageView.context))
+        imageView.loadImage(url)
     }
 }

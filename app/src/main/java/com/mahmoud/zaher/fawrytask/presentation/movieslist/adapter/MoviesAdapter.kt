@@ -32,8 +32,7 @@ class MoviesAdapter(
                 container.setOnClickListener { onItemClicked(Movie) }
                 tvName.text = Movie.movieName
                 imageView.loadImage(
-                    IMAGE_URL + Movie.posterPath,
-                    getProgressDrawable(context = imageView.context)
+                    IMAGE_URL + Movie.posterPath
                 )
             }
         }
