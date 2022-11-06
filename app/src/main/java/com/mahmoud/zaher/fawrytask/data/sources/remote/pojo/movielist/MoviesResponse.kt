@@ -1,4 +1,4 @@
-package com.mahmoud.zaher.fawrytask.data.sources.remote.pojo
+package com.mahmoud.zaher.fawrytask.data.sources.remote.pojo.movielist
 
 
 import com.google.gson.annotations.SerializedName

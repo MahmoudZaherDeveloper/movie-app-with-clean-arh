@@ -4,6 +4,7 @@ import com.mahmoud.zaher.fawrytask.data.mapper.mapToMovie
 import com.mahmoud.zaher.fawrytask.data.mapper.mapToMovieEntity
 import com.mahmoud.zaher.fawrytask.data.sources.local.MovieDao
 import com.mahmoud.zaher.fawrytask.data.sources.remote.MovieApi
+import com.mahmoud.zaher.fawrytask.data.sources.remote.pojo.moviedetails.MovieDetails
 import com.mahmoud.zaher.fawrytask.domain.model.Movie
 import com.mahmoud.zaher.fawrytask.domain.repository.MovieRepository
 import javax.inject.Inject
@@ -23,6 +24,10 @@ class MoviesRepositoryImpl @Inject constructor(
             it.mapToMovie()
             //todo mapToMoviee(it)
         }
+    }
+
+    override suspend fun getMovieByID(movieId: Int): MovieDetails {
+        return remoteDataSource.getMovieDetails(movieId)
     }
 
     override fun getAllCashed(): List<Movie> {

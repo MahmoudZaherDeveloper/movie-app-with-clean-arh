@@ -1,7 +1,7 @@
 package com.mahmoud.zaher.fawrytask.data.mapper
 
 import com.mahmoud.zaher.fawrytask.data.sources.local.entity.MovieEntity
-import com.mahmoud.zaher.fawrytask.data.sources.remote.pojo.MovieResult
+import com.mahmoud.zaher.fawrytask.data.sources.remote.pojo.movielist.MovieResult
 import com.mahmoud.zaher.fawrytask.domain.model.Movie
 
 fun MovieResult.mapToMovie(): Movie {
