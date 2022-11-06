@@ -38,6 +38,6 @@ class MovieListViewModel @Inject constructor(val movieInteractor: MovieInteracto
 sealed class MovieListScreenState {
     object Initial : MovieListScreenState()
     object Loading : MovieListScreenState()
-    data class Success(val users: List<Movie>) : MovieListScreenState()
+    data class Success(val movies: List<Movie>) : MovieListScreenState()
     data class Error(val message: String) : MovieListScreenState()
 }
